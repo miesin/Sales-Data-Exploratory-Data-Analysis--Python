@@ -1,0 +1,266 @@
+import pandas as pd
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as ppt
+import seaborn as sn
+import sys
+import lxml
+sales = pd.read_csv(f'/Users/philipawala/Downloads/sales_data.csv')
+# print(sales)
+# print(sales.info())
+# print(sales.shape)
+# print(sales.describe(include='all'))
+# print(sales['Unit_Cost'].describe())
+# print(h.shape)
+# print(sales['Age_Group'].value_counts())
+
+# sn.barplot(sales.Unit_Cost)
+
+a = np.array([3,2,5,3,6])
+b = np.array([6,3, 2.5, 5,9,0])
+# print(a[1], b[0], a[-1])
+# print(b[[2, -1, 3]])
+c = np.array([3,4,5,6,3], dtype=np.float32)
+# print(b.dtype)
+# print(c.dtype)
+d = np.array([{'a': 1}, sys])
+# print(c.dtype)
+
+# _____Multidimensional array_____
+f = np.array([
+    [3,5,8],
+    [5,4,7]
+])
+# print(f.shape) #rows vs columns
+# print(f.ndim) #the dimension, there are 2, one vertical and one horizontal
+# print(f.size) #gives the number of elements all together
+
+g = np.array([
+    [
+        [4,5,6],
+        [7,8,9]
+    ],
+    [
+        [1,2,3],
+     [10,11,12]
+    ]
+])
+
+# print(g) #make sure the rows and the columns are consistent. else, it will fall back to pythons object '0'
+# print(g.shape)
+# print(g.ndim)
+# print(g.size)
+
+h = np.array([
+    [1,2,3],
+    [4,5,6],
+    [7,8,9]
+])
+
+# print(h[1][1])
+# print(h[2,2])
+#
+# print(h[:, :2])
+# print(h[:2, 2:])
+# # print(h[0:2])
+# h[1] = np.array([10,10,10])
+# h[1] = 99 # numpy will spread it out to other columns
+
+# print(h)
+#SUMMARY STATISTICS
+# j = np.array([2,3,4,5])
+# print(j.sum()) #you can do for the mean, the std, and other statistics
+
+k = np.array([
+    [1,2,3],
+    [4,5,6],
+    [7,8,9]
+])
+
+# print(k.sum())
+# print(k.sum(axis=1))
+# print(k.sum(axis=0))
+
+#______vectorised array____
+l = np.arange(4)
+# print(l)
+# l = l+10 # also with multiplication
+# print([i*10 for i in l])
+m = np.array([10,10,10,10])
+# print(m[[0,-1]])
+
+# print(l + m)
+# print(l)
+
+#_____Boolean Arrays___
+
+# print(m[[True,False,True,False]])
+# print(l>=2)
+# print(l[l>=2])
+
+# print(l[~(l>=l.mean())])
+#______Linear algebra______
+A = np.array([
+    [10, 3,6],
+    [5,6,2],
+    [2,6,9]
+])
+
+B = np.array([
+    [2,3],
+    [6,11],
+    [1,4]
+])
+
+# print(A.dot(B))
+# print(A@B) #Cross product
+# print(B.T) #Transpose
+# print(np.ones((3,3)))
+# np.ones([2,2], dtype=np.int)
+# X = np.array([[2,3], [6,2]], dtype=np.int)
+# np.ones_like(X) * 7
+
+# print(np.random.randint(10, size=3))
+# print(np.arange(1, 11)[::-1]) #descending order
+# print(np.arange(9).reshape(3,3)) #to transform list to matrix
+#
+# X = np.array([-1, 2, 0, -4, 5, 6, 0, 0, -9, 10])
+#
+# mask = (X == 2) | (X == 10)
+# print(X[mask])
+
+
+
+
+#______PANDAS_______
+
+g7_pop = pd.Series([3,4,5,6,7,8.9, 7])
+g7_pop.name = 'G7 population in millions'
+g7_pop.index = [
+    'Canada',
+    'United states',
+    'United kingdom',
+    'italy',
+    'Germany',
+    'France',
+    'Japan'
+]
+# print(g7_pop) #  ~ means NOT
+# print(g7_pop['Canada'])
+# print(g7_pop>6)
+# print(g7_pop[(g7_pop>6) | (g7_pop<4)])
+
+df = pd.DataFrame({
+    'Population': [4,5,6,7],
+    'GDP': [1.2, 3.4,4.5,5.6],
+    'HDI': [9.1, 8.2,7.9,9.0],
+    'PPP': [42000, 60000,45000,47000],
+}, columns=['Population', 'GDP', 'HDI', 'PPP'])
+
+df.index = ['Japan', 'Canada', 'US', 'UK']
+
+# print(df[['Population', 'GDP']]) #This selects the columns
+# print(df.loc['Canada'])
+# print(df.iloc[-1])
+# print(df.loc['Japan':'US', 'Population'])
+# print(df.dtypes.value_counts())
+# print(df.describe())
+# print(df.info())
+# print(df.iloc[1:3,3])
+# print(df)
+
+# print(df.loc[df['Population']>5, ['Population', 'GDP']]) #you may omit the secod argument and leave the brackets
+
+# df.drop('Canada')
+# df.drop(['Canada', 'Japan'])
+# df.drop(columns=('Population', 'GDP'))
+
+Crises = pd.Series([-1, -0.3], index=['Population', 'HDI'])
+# print(df[['Population', 'GDP']]) + Crises
+# print(Crises)
+
+
+# ____________READING AND PLOTTING CSV FILES____________
+
+btc_price = pd.read_csv(r'/Users/philipawala/Downloads/btc-market-price.csv',
+            header=None,
+            names=['Timsepamp', 'price'],
+            index_col=0,
+            parse_dates=True) #Everything in one. the following codes are summarised
+# print(btc_price.head())
+# print(btc_price.loc['2017-04-05'])
+# btc_price.columns = ['Timestamp', 'price']
+# # print(pd.to_datetime(btc_price['Timestamp']))
+# btc_price['Timestamp'] = pd.to_datetime(btc_price['Timestamp'])
+# btc_price.set_index('Timestamp', inplace=True)
+# # print(btc_price.head(3))
+
+# __________Plotting Basics with pandas____________
+
+# btc_price.plot()
+
+# ppt.plot(btc_price.index, btc_price['price'])
+
+eth = pd.read_csv(r'/Users/philipawala/Downloads/eth-price.csv', parse_dates=True, index_col=0)
+# pd.to_datetime(eth['UnixTimeStamp'].head())
+# pd.to_datetime(eth['Date(UTC)'].head())
+
+# prices = pd.DataFrame(index=btc_price.index)
+# # print(prices)
+# prices['Bitcoin'] = btc_price['price']
+# prices['Eth'] = eth['Value']
+# prices.plot(figsize =(12,6))
+# # print(eth)
+
+# print(pd.isnull(3))
+# print(pd.isnull(pd.Series([1, None, 3])))
+s = pd.Series([2,4,6,None, 3, None])
+# print(s)
+# print(s.dropna()) #this drops null values # so we have dropna, fillna and isna or isnull
+# print(s.fillna(2))
+
+
+df2 = pd.DataFrame({
+    'Sex': ['M', 'F', 'F', 'F', 'D', '?'],
+    'Age': [15, 20, 16, 17, 290, 18]
+})
+# print(df2)
+# print(df2['Sex'].unique())
+# print(df2['Sex'].replace({'Sex':{'D': 'M', '?': 'F'}, 'Age':{290, 29}}))
+# df2.drop_duplicates(keep='last')   #if you dont specify that, it will keep the first
+
+df3 = pd.DataFrame({
+    'Data': ['1981_M_US_1', '1962_F_CA_1', '1985_M_NZ_2', '1990_F_UK_2']
+})
+df3 = (df3['Data'].str.split('_', expand = True) )
+df3.columns= ['Year', 'Sex', 'Country', 'no. of Children']
+# print(df3)
+
+x = np.arange(-10,10)
+# fig, axes = ppt.subplots(figsize=(12,6))
+# axes.plot(x, (x**2), color = 'red', linewidth = 3, marker = 'o', markersize = 8, label = 'X^2')
+# axes.plot(x, -1*(x**2), 'b--', label = '-X^2')
+# axes.set_xlabel('X')
+# axes.set_ylabel('X squared')
+# axes.set_title('My nice plot')
+# axes.legend()
+
+# plot_objects = ppt.subplots(nrows=2, ncols=2, figsize=(14,6))
+# fig, ((ax1, ax2), (ax3, ax4)) = plot_objects # We can plot Histogram, scatter plots and kernel density etc
+
+# csv_url = "https://raw.githubusercontent.com/ine-rmotr-curriculum/RDP-Reading-Data-with-Python-and-Pandas/master/unit-1-reading-data-with-python-and-pandas/lesson-1-reading-csv-and-txt-files/files/btc-market-price.csv"
+# csvread = pd.read_csv(csv_url)
+# print(csvread.head())  #you can also read csv directly from the web
+
+#_____Connecting to a database_____
+# conn = MySQL.connect('Chinook db')
+# df4 = pd.read_sql('select * from names;', conn) #there is a read_sql_table and a read_sql_query, table is better
+
+# html_url = 'https://www.basketball-reference.com/friv/mvp.html'
+# basket = pd.read_html(html_url)
+# print(len(basket))
+# nba = basket[0]
+# print(nba.head())
+excel = pd.read_excel('/Users/philipawala/Downloads/P1-StartupExpansion.xlsx')
+print(excel.head())
+ppt.show()
